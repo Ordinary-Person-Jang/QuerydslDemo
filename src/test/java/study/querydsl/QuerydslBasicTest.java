@@ -261,5 +261,26 @@ public class QuerydslBasicTest {
         return usernameCond(usernameParam).and(ageCond(ageParam));
     }
 
+    @Test
+    public void bulkUpdate() throws Exception {
+        //give
+        long result = queryFactory
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
 
+        System.out.println("result = " + result);
+
+        em.flush();
+        em.clear();
+
+        List<Member> resultlist = queryFactory.selectFrom(member).fetch();
+        for (Member member1 : resultlist) {
+            System.out.println("member1 = " + member1);
+        }
+        //when
+
+        //then
+    }
 }
